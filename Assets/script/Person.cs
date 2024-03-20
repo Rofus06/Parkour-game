@@ -1,5 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
+using UnityEditorInternal;
 using UnityEngine;
 
 [RequireComponent(typeof(CharacterController))]     
@@ -10,7 +12,15 @@ public class Person : MonoBehaviour
     public float runSpeed = 12f;
     public float jumpPower = 7f;
     public float gravity = 10f;
- 
+    public float wallrunSpeed;
+    private MovmentState state;
+    public float desiredMoveSpeed;
+    public enum MovmentState
+    {
+        wallrunning
+    }
+
+    public bool wallrunning;
  
     public float lookSpeed = 2f;
     public float lookXLimit = 45f;
@@ -29,10 +39,16 @@ public class Person : MonoBehaviour
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
     }
- 
+    
     void Update()
     {
- 
+        
+        if (wallrunning)
+        {
+            state = MovmentState.wallrunning;
+            desiredMoveSpeed = wallrunSpeed;
+        }
+        
         #region Handles Movment
         Vector3 forward = transform.TransformDirection(Vector3.forward);
         Vector3 right = transform.TransformDirection(Vector3.right);
