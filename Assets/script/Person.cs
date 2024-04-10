@@ -45,7 +45,6 @@ public class Person : MonoBehaviour
         
         if (wallrunning)
         {
-            state = MovmentState.wallrunning;
             desiredMoveSpeed = wallrunSpeed;
         }
         

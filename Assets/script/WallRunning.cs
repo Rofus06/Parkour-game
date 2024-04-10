@@ -136,28 +136,27 @@ public class WallRunning : MonoBehaviour
 
     private void WallRunningMovement()
     {
-        rb.useGravity = useGravity;
+        // Disable gravity when wall running
+        rb.useGravity = false;
 
-        Vector3 wallNormal = wallRight ? rightWallhit.normal : leftWallhit.normal;
-
+        // Calculate wall normal and forward vectors
+        Vector3 wallNormal = wallRight ? rightWallhit.normal : -leftWallhit.normal;
         Vector3 wallForward = Vector3.Cross(wallNormal, transform.up);
-
-        if ((orientation.forward - wallForward).magnitude > (orientation.forward - -wallForward).magnitude)
-            wallForward = -wallForward;
 
         // forward force
         rb.AddForce(wallForward * wallRunForce, ForceMode.Force);
 
-        // upwards/downwards force
+        // Apply upwards/downwards force based on input keys
         if (upwardsRunning)
             rb.velocity = new Vector3(rb.velocity.x, wallClimbSpeed, rb.velocity.z);
-        if (downwardsRunning)
+        else if (downwardsRunning)
             rb.velocity = new Vector3(rb.velocity.x, -wallClimbSpeed, rb.velocity.z);
 
         // push to wall force
         if (!(wallLeft && horizontalInput > 0) && !(wallRight && horizontalInput < 0))
             rb.AddForce(-wallNormal * 100, ForceMode.Force);
     }
+
 
     private void StopWallRun()
     {
