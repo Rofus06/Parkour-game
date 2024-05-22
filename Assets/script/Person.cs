@@ -7,40 +7,40 @@ using UnityEngine;
 [RequireComponent(typeof(CharacterController))]     
 public class Person : MonoBehaviour
 {
-    public Camera playerCamera;
-    public float walkSpeed = 6f;
-    public float runSpeed = 12f;
-    public float jumpPower = 7f;
-    public float gravity = 10f;
-    public float wallrunSpeed;
-    private MovmentState state;
-    public float desiredMoveSpeed;
-    public enum MovmentState
+    public Camera playerCamera; //the camera that is used to play the game
+    public float walkSpeed = 6f; //walking speed in game
+    public float runSpeed = 12f; //run speed in game
+    public float jumpPower = 7f; //jump power in game
+    public float gravity = 10f; //gravity in game
+    public float wallrunSpeed; //wallrun speed in game
+    private MovmentState state; //current state of the movment
+    public float desiredMoveSpeed; //speed of movement in game
+    public enum MovmentState 
     {
         wallrunning
     }
 
     public bool wallrunning;
  
-    public float lookSpeed = 2f;
-    public float lookXLimit = 45f;
+    public float lookSpeed = 2f; //speed of look
+    public float lookXLimit = 45f; //limit of look
  
  
-    Vector3 moveDirection = Vector3.zero;
+    Vector3 moveDirection = Vector3.zero; //direction of movement
     float rotationX = 0;
  
     public bool canMove = true;
  
     
     CharacterController characterController;
-    void Start()
+    void Start() 
     {
         characterController = GetComponent<CharacterController>();
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
     }
     
-    void Update()
+    void Update() 
     {
         
         if (wallrunning)
@@ -53,7 +53,7 @@ public class Person : MonoBehaviour
         Vector3 right = transform.TransformDirection(Vector3.right);
  
         // Press Left Shift to run
-        bool isRunning = Input.GetKey(KeyCode.LeftShift);
+        bool isRunning = Input.GetKey(KeyCode.LeftShift); //if left shift is pressed then it will run
         float curSpeedX = canMove ? (isRunning ? runSpeed : walkSpeed) * Input.GetAxis("Vertical") : 0;
         float curSpeedY = canMove ? (isRunning ? runSpeed : walkSpeed) * Input.GetAxis("Horizontal") : 0;
         float movementDirectionY = moveDirection.y;
@@ -62,7 +62,7 @@ public class Person : MonoBehaviour
         #endregion
  
         #region Handles Jumping
-        if (Input.GetButton("Jump") && canMove && characterController.isGrounded)
+        if (Input.GetButton("Jump") && canMove && characterController.isGrounded) // Jump
         {
             moveDirection.y = jumpPower;
         }
@@ -71,7 +71,7 @@ public class Person : MonoBehaviour
             moveDirection.y = movementDirectionY;
         }
  
-        if (!characterController.isGrounded)
+        if (!characterController.isGrounded)  
         {
             moveDirection.y -= gravity * Time.deltaTime;
         }
@@ -81,7 +81,7 @@ public class Person : MonoBehaviour
         #region Handles Rotation
         characterController.Move(moveDirection * Time.deltaTime);
  
-        if (canMove)
+        if (canMove) // move the character from the current position to the target position
         {
             rotationX += -Input.GetAxis("Mouse Y") * lookSpeed;
             rotationX = Mathf.Clamp(rotationX, -lookXLimit, lookXLimit);

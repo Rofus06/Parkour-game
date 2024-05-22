@@ -26,28 +26,28 @@ public class WallRunning : MonoBehaviour
     private float verticalInput;
 
     [Header("Detection")]
-    public float wallCheckDistance;
-    public float minJumpHeight;
-    private RaycastHit leftWallhit;
-    private RaycastHit rightWallhit;
+    public float wallCheckDistance; // distance between wall and player
+    public float minJumpHeight; 
+    private RaycastHit leftWallhit; //if player hit the left wall or not
+    private RaycastHit rightWallhit; //if player hit the right wall or not
     private bool wallLeft;
     private bool wallRight;
 
     [Header("Exiting")]
-    private bool exitingWall;
-    public float exitingWallTime;
+    private bool exitingWall; //if player is leaving the wall
+    public float exitingWallTime; //time to leave the wall
     private float exitingWallTimer;
 
     [Header("Gravity")]
-    public bool useGravity;
-    public float grvityCounterForce;
+    public bool useGravity; // uses gravity from player for the wall
+    public float grvityCounterForce; // forces gravity from player for the wall
 
     [Header("References")]
     public Transform orientation;
-    private Person pm;
-    private Rigidbody rb;
+    private Person pm; // the person it self
+    private Rigidbody rb; //body to use for the wall
 
-    private void Start()
+    private void Start() 
     {
         rb = GetComponent<Rigidbody>();
         pm = GetComponent<Person>();
